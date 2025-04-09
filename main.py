@@ -1,4 +1,8 @@
+from scraper.TsScraper import TsScraper
 
 if __name__ == '__main__':
-    print('hello world')
+    ts = TsScraper()
+    cs = ts.get_categories()
+    for c in cs:
+        print(c)
 

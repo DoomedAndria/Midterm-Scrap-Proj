@@ -12,8 +12,8 @@ class Scraper:
         self._NAME = name
 
 
-    @staticmethod
-    def _fetch_and_parse_page(url):
+    @classmethod
+    def fetch_and_parse_page(cls,url):
         try:
             html = requests.get(url).text
             try:

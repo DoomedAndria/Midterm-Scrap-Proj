@@ -1,3 +1,5 @@
+from itertools import product
+from utils.thread_pool_worker import worker_for_product_details
 from models.Category import Category
 from scraper.TsScraper import TsScraper
 import os
@@ -55,8 +57,12 @@ class MenuHandler:
                     print("No subcategories to browse.")
             elif choice == '2':
                 # self.fetch_products(category)
-                for i in self.scraper.get_products(category.url):
-                    print(i.name)
+                products = self.scraper.get_products('https://www.citadeli.com/ka/products')
+                # worker_for_product_details(products)
+                # for i in products:
+                #     print(i.url, i.description,i.category)
+                for p in products:
+                    print(p)
             elif choice == '3':
                 return
             else:

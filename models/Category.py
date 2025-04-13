@@ -16,8 +16,8 @@ class Category:
 
 
     def get_breadcrumbs(self):
-        return self.name if self.parent is None else \
-            f'{self.parent.get_breadcrumbs()} > {self.name}'
+        return f'({self.name})' if self.parent is None else \
+            f'{self.parent.get_breadcrumbs()} > ({self.name})'
 
 
     def __str__(self):

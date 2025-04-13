@@ -7,6 +7,10 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 class MenuHandler:
+    def __init__(self):
+        self.scraper = TsScraper()
+        self.categories = self.scraper.get_categories()
+
 
     def navigate_categories(self, categories: list[Category]):
         while True:
@@ -51,7 +55,8 @@ class MenuHandler:
                     print("No subcategories to browse.")
             elif choice == '2':
                 # self.fetch_products(category)
-                print('fetched')
+                for i in self.scraper.get_products(category.url):
+                    print(i.name)
             elif choice == '3':
                 return
             else:
@@ -68,7 +73,7 @@ class MenuHandler:
 
     def handle_operation(self, operation):
         operations = {
-            '1': lambda: self.navigate_categories(TsScraper().get_categories()),
+            '1': lambda: self.navigate_categories(self.categories),
             '2': self.exit_program
         }
         operation_function = operations.get(operation, self.invalid_option)

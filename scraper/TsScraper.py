@@ -34,7 +34,10 @@ class TsScraper(Scraper):
         return category
 
 
-    def get_products(self, url):
+    def get_products(self, url= None):
+        if url is None:
+            url = self.products_page
+
         url = self.validate_url(self, url)
         soup = self.fetch_and_parse_page(url)
 
@@ -59,8 +62,8 @@ class TsScraper(Scraper):
             def get_price(pr: bs4.element.Tag):
                 try:
                     price = pr.find('div', attrs={'class': 'pr_left'}).find('span', attrs={'class': 'price'})
-                    price = price.get_text().strip()
-                except AttributeError:
+                    price = float(price.get_text().strip()[:-1])
+                except (AttributeError,ValueError):
                     price = ''
                 return price
 
@@ -81,8 +84,8 @@ class TsScraper(Scraper):
         def fetch_page(i):
             new_url = f'{url}?page={i}'
             page_products = get_products_from_page(new_url)
-            print(f'\rProgress: {i / total_pages * 100:.2f}%', end='')
+            print(f'\rFetching product data ... Progress: {i / total_pages * 100:.2f}%', end='')
             return page_products
 
 
-        return worker_for_page_scraping(fetch_page,total_pages,products,10)
+        return worker_for_page_scraping(fetch_page,total_pages,products)

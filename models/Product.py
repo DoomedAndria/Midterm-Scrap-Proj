@@ -31,6 +31,7 @@ class Product:
         pass
 
     def get_details(self):
+        """todo"""
         self.soup = Scraper.fetch_and_parse_page(self.url)
 
         self.category = self._get_category()
@@ -39,6 +40,7 @@ class Product:
         self.image = self._get_image()
 
     def __str__(self):
+        """todo"""
         return (f'name: {self.name}\n'
                 f'price: {self.price}\n'
                 f'url: {self.url}\n')

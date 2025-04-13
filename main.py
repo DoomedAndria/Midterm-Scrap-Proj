@@ -57,12 +57,13 @@ class MenuHandler:
                     print("No subcategories to browse.")
             elif choice == '2':
                 # self.fetch_products(category)
-                products = self.scraper.get_products('https://www.citadeli.com/ka/products')
+                products = self.scraper.get_products(category.url)
                 # worker_for_product_details(products)
                 # for i in products:
                 #     print(i.url, i.description,i.category)
                 for p in products:
                     print(p)
+                print(len(products))
             elif choice == '3':
                 return
             else:

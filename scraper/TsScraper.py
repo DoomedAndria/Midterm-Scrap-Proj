@@ -3,6 +3,7 @@ import bs4
 from models.Category import Category
 from models.Product import Product
 from scraper.Scraper import Scraper
+from utils.thread_pool_worker import worker_for_page_scraping
 
 
 class TsScraper(Scraper):
@@ -39,10 +40,11 @@ class TsScraper(Scraper):
 
 
         def get_last_page_num(s: bs4.element.Tag):
-            pg = soup.find('div',attrs={'class':'pagination'})
-            if pg:
+            try:
+                pg = soup.find('div',attrs={'class':'pagination'})
                 return int(pg.find_all('li')[-2].get_text())
-            return 1
+            except (AttributeError,IndexError):
+                return 1
 
         def get_products_from_page(url_):
             soup_ = self.fetch_and_parse_page(url_)
@@ -74,9 +76,13 @@ class TsScraper(Scraper):
 
         products = []
 
-        for i in range(1,get_last_page_num(soup)+1):
-            new_url = f'{url}?page={i}'
-            products+=get_products_from_page(new_url)
-            print(f'\r progress: {i/get_last_page_num(soup)*100}%',end='')
+        total_pages = get_last_page_num(soup)
 
-        return products
+        def fetch_page(i):
+            new_url = f'{url}?page={i}'
+            page_products = get_products_from_page(new_url)
+            print(f'\rProgress: {i / total_pages * 100:.2f}%', end='')
+            return page_products
+
+
+        return worker_for_page_scraping(fetch_page,total_pages,products,10)

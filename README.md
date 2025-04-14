@@ -50,4 +50,4 @@ This project is a simple web scraper designed to extract product information fro
     ```
    
 
-<span style="color:orange">**Note:** As I’m not the best at writing content and  while the code is entirely mine, a big shoutout to GPT for helping me refine and structure the text for clarity and presentation.</span>
+<span style="color:orange">**Note:** As I'm not the best at writing content, I want to give a big shoutout to GPT for helping me refine and structure the text for clarity and presentation, while the code is entirely mine.</span>
